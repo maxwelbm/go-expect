@@ -19,7 +19,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -336,7 +335,7 @@ func TestEditor(t *testing.T) {
 	}
 	defer testCloser(t, c)
 
-	file, err := ioutil.TempFile("", "")
+	file, err := os.CreateTemp("", "")
 	if err != nil {
 		t.Errorf("Expected no error but got '%s'", err)
 	}
@@ -363,7 +362,7 @@ func TestEditor(t *testing.T) {
 	testCloser(t, c.Tty())
 	wg.Wait()
 
-	data, err := ioutil.ReadFile(file.Name())
+	data, err := os.ReadFile(file.Name())
 	if err != nil {
 		t.Errorf("Expected no error but got '%s'", err)
 	}
